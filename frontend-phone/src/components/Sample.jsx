@@ -22,7 +22,7 @@ const Sample = () => {
                 </div>
             </div>
           </div>
-        </div>
+        </div>  
       </div>
     </Layout>
   );

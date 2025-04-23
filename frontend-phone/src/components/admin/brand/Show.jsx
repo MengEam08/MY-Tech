@@ -7,8 +7,6 @@ import Loader from "../../common/Loader";
 import Nostate from "../../common/Nostate";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-
-// Import icons
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 const Show = () => {
@@ -18,7 +16,7 @@ const Show = () => {
   const fetchCategories = async () => {
     setLoader(true);
     try {
-      const res = await fetch(`${apiUrl}/categories`, {
+      const res = await fetch(`${apiUrl}/brands`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -44,7 +42,7 @@ const Show = () => {
   const deleteCategory = async (id) => {
     if (confirm("Are you sure you want to delete?")) {
       try {
-        const res = await fetch(`${apiUrl}/categories/${id}`, {
+        const res = await fetch(`${apiUrl}/brands/${id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -67,7 +65,7 @@ const Show = () => {
         setLoader(false);
       }
     }
-  }
+  };
 
   useEffect(() => {
     fetchCategories();
@@ -78,8 +76,8 @@ const Show = () => {
       <div className="container-md">
         <div className="row">
           <div className="d-flex justify-content-between mt-5 pb-3">
-            <h4 className="h-4 pb-0 mb-0">Categories</h4>
-            <Link to="/admin/categories/create" className="btn btn-primary">Create</Link>
+            <h4 className="h-4 pb-0 mb-0">Brands</h4>
+            <Link to="/admin/brands/create" className="btn btn-primary">Create</Link>
           </div>
           <div className="col-md-3">
             <Sidebar />
@@ -89,7 +87,7 @@ const Show = () => {
               <div className="card-body p-4">
                 {loader && <Loader />}
                 {!loader && categories.length === 0 && <Nostate text="Categories not Found" />}
-                {categories.length > 0 &&
+                {categories && categories.length > 0 &&
                   <table className="table table-hover">
                     <thead>
                       <tr>
@@ -111,21 +109,17 @@ const Show = () => {
                             }
                           </td>
                           <td>
-                            <Link
-                              to={`/admin/categories/edit/${category.id}`}
-                              className="text-primary"
-                              title="Edit"
-                            >
-                              <FaEdit />
-                            </Link>
-                            <span
-                              onClick={() => deleteCategory(category.id)}
-                              className="text-danger ms-3"
-                              style={{ cursor: 'pointer' }}
-                              title="Delete"
-                            >
-                              <FaTrash />
-                            </span>
+                            <div className="d-flex align-items-center gap-3">
+                              <Link to={`/admin/brands/edit/${category.id}`} className="text-primary">
+                                <FaEdit style={{ fontSize: '1.2rem' }} />
+                              </Link>
+                              <button
+                                onClick={() => deleteCategory(category.id)}
+                                className="text-danger btn p-0 border-0 bg-transparent"
+                              >
+                                <FaTrash style={{ fontSize: '1.2rem' }} />
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))}

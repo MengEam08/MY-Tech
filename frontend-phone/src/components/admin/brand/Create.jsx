@@ -1,57 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import React, { useState } from 'react';
 import Layout from '../../common/Layout';
+import { Link, useNavigate } from 'react-router-dom';
 import Sidebar from '../../common/Sidebar';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { apiUrl, adminToken } from '../../common/http';
+import { adminToken, apiUrl } from '../../common/http';
 
-const Edit = () => {
+const Create = () => {
   const [disable, setDisable] = useState(false);
-  const { id } = useParams(); 
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
-  
-  useEffect(() => {
-    const fetchCategory = async () => {
-      try {
-        const res = await fetch(`${apiUrl}/categories/${id}`, {
-          headers: {
-            Authorization: `Bearer ${adminToken()}`,
-            Accept: 'application/json',
-          },
-        });
-        const result = await res.json();
-
-        if (res.ok) {
-          reset({
-            name: result.data.name,
-            status: result.data.status.toString(),
-          });
-        } else {
-          toast.error('Failed to fetch category.');
-        }
-      } catch (error) {
-        console.error('Fetch error:', error);
-        toast.error('Network error while fetching category.');
-      }
-    };
-
-    fetchCategory();
-  }, [id, reset]);
-
-  const updateCategory = async (data) => {
+  const saveCategory = async (data) => {
     setDisable(true);
     try {
-      const res = await fetch(`${apiUrl}/categories/${id}`, {
-        method: 'PUT', // ✅ Use PUT or PATCH
+      const res = await fetch(`${apiUrl}/brands`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
@@ -61,19 +30,21 @@ const Edit = () => {
       });
 
       const result = await res.json();
-      console.log('Update response:', result);
+      console.log("Response from backend:", result);
 
       setDisable(false);
 
       if (res.ok) {
-        toast.success(result.message || 'Category updated successfully.');
-        navigate('/admin/categories');
+        toast.success(result?.message || 'Category created!');
+        navigate('/admin/brands');
       } else {
-        toast.error(result.message || 'Something went wrong while updating.');
+        toast.error(result?.message || 'Something went wrong.');
+        console.log('Server response:', result);
       }
+
     } catch (error) {
-      console.error('Update error:', error);
-      toast.error('Network error while updating category.');
+      console.error('Fetch error: ', error);
+      toast.error('Network error while creating category.');
       setDisable(false);
     }
   };
@@ -83,8 +54,8 @@ const Edit = () => {
       <div className="container-md">
         <div className="row">
           <div className="d-flex justify-content-between mt-5 pb-3">
-            <h4 className="h-4 pb-0 mb-0">Categories / Edit</h4>
-            <Link to="/admin/categories" className="btn btn-primary">
+            <h4 className="h-4 pb-0 mb-0">Brands / Create</h4>
+            <Link to="/admin/brands" className="btn btn-primary">
               Back
             </Link>
           </div>
@@ -92,9 +63,10 @@ const Edit = () => {
             <Sidebar />
           </div>
           <div className="col-md-9">
-            <form onSubmit={handleSubmit(updateCategory)}>
+            <form onSubmit={handleSubmit(saveCategory)}>
               <div className="card shadow">
                 <div className="card-body p-4">
+                  {/* Name Field */}
                   <div className="mb-3">
                     <label htmlFor="name" className="form-label">
                       Name
@@ -113,6 +85,7 @@ const Edit = () => {
                     )}
                   </div>
 
+                  {/* Status Field */}
                   <div className="mb-3">
                     <label htmlFor="status" className="form-label">
                       Status
@@ -140,7 +113,7 @@ const Edit = () => {
                 type="submit"
                 className="btn btn-primary mt-3"
               >
-                {disable ? 'Updating...' : 'Update'}
+                {disable ? 'Creating...' : 'Create'}
               </button>
             </form>
           </div>
@@ -150,4 +123,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default Create;

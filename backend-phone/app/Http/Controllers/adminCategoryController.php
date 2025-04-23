@@ -23,7 +23,7 @@ class adminCategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            // 'status' => 'required|in:active,inactive' // optional: depending on your status options
+            'status' => 'required' 
         ]);
 
         if ($validator->fails()) {

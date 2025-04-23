@@ -8,7 +8,7 @@ import { apiUrl, adminToken } from '../../common/http';
 
 const Edit = () => {
   const [disable, setDisable] = useState(false);
-  const { id } = useParams(); 
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const {
@@ -18,11 +18,10 @@ const Edit = () => {
     formState: { errors },
   } = useForm();
 
-  
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const res = await fetch(`${apiUrl}/categories/${id}`, {
+        const res = await fetch(`${apiUrl}/brands/${id}`, {
           headers: {
             Authorization: `Bearer ${adminToken()}`,
             Accept: 'application/json',
@@ -50,8 +49,8 @@ const Edit = () => {
   const updateCategory = async (data) => {
     setDisable(true);
     try {
-      const res = await fetch(`${apiUrl}/categories/${id}`, {
-        method: 'PUT', // ✅ Use PUT or PATCH
+      const res = await fetch(`${apiUrl}/brands/${id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
@@ -67,7 +66,7 @@ const Edit = () => {
 
       if (res.ok) {
         toast.success(result.message || 'Category updated successfully.');
-        navigate('/admin/categories');
+        navigate('/admin/brands');
       } else {
         toast.error(result.message || 'Something went wrong while updating.');
       }
@@ -83,8 +82,8 @@ const Edit = () => {
       <div className="container-md">
         <div className="row">
           <div className="d-flex justify-content-between mt-5 pb-3">
-            <h4 className="h-4 pb-0 mb-0">Categories / Edit</h4>
-            <Link to="/admin/categories" className="btn btn-primary">
+            <h4 className="h-4 pb-0 mb-0">Brands / Edit</h4>
+            <Link to="/admin/brands" className="btn btn-primary">
               Back
             </Link>
           </div>

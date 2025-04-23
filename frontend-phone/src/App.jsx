@@ -10,6 +10,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import Dashboard from './components/admin/Dashboard';
 import { AdminRequireAuth } from './components/admin/AdminRequireAuth'
 import {default as ShowCategories} from './components/admin/category/Show';
+import {default as CreateCategory} from './components/admin/category/Create';
+import {default as EditCategory} from './components/admin/category/Edit';
+
+import {default as ShowBrands} from './components/admin/brand/Show';
+import {default as CreateBrands} from './components/admin/brand/Create';
+import {default as EditBrands} from './components/admin/brand/Edit';
+
+
  
 
 function App() {
@@ -36,6 +44,36 @@ function App() {
               <ShowCategories />
             </AdminRequireAuth>
           } />
+
+          <Route path="/admin/categories/create" element={
+            <AdminRequireAuth>
+              <CreateCategory />
+            </AdminRequireAuth>
+          } />
+
+        <Route path="/admin/categories/edit/:id" element={
+            <AdminRequireAuth>
+              <EditCategory />
+            </AdminRequireAuth>
+          } />
+          
+        <Route path="/admin/brands" element={
+          <AdminRequireAuth>
+            <ShowBrands />
+          </AdminRequireAuth>
+        } />
+
+        <Route path="/admin/brands/create" element={
+          <AdminRequireAuth>
+            <CreateBrands />
+          </AdminRequireAuth>
+        } />
+
+        <Route path="/admin/brands/edit/:id" element={
+          <AdminRequireAuth>
+            <EditBrands />
+          </AdminRequireAuth>
+        } />
 
         </Routes>
     </BrowserRouter>
