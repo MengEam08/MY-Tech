@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\TempImage;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ class adminProductController extends Controller
             'sku' => 'required|unique:products,sku',
             'is_featured' => 'required',
             'status' => 'required|in:0,1',
-            'gallary.*' => 'nullable|exists:temp_images,id',
+            'gallery.*' => 'nullable|exists:temp_images,id',
         ]);
 
         if ($validator->fails()) {
@@ -58,8 +59,8 @@ class adminProductController extends Controller
         $product->save();
 
         // Save image product
-        if (!empty($request->gallary)) {
-            foreach ($request->gallary as $key => $tempimageId) {
+        if (!empty($request->gallery)) {
+            foreach ($request->gallery as $key => $tempimageId) {
                 $tempImage = TempImage::find($tempimageId);
 
                 if ($tempImage) {
@@ -75,6 +76,11 @@ class adminProductController extends Controller
                     $img = $manager->read(public_path('uploads/temp/' . $tempImage->name));
                     $img->coverDown(400, 460);
                     $img->save(public_path('uploads/products/small/' . $imageName));
+
+                    $productImage = new ProductImage();
+                    $productImage->image = $imageName;
+                    $productImage->product_id = $product->id;
+                    $productImage->save();
 
                     // Save first image as main product image
                     if ($key == 0) {

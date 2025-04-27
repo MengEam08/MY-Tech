@@ -14,9 +14,9 @@ const Footer = () => {
           <div className='col-md-3 pt-4'>
             <h2 className='mb-3'>Category</h2>
             <ul>
-              <li><a href="">Kids</a></li>
-              <li><a href="">Men</a></li>
-              <li><a href="">Women</a></li>
+              <li><a href="">Phones</a></li>
+              <li><a href="">Laptops</a></li>
+              <li><a href="">Desktops</a></li>
             </ul>
           </div>
 

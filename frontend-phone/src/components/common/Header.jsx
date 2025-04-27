@@ -7,9 +7,9 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <header className='shadow'>
-    <div className='bg-dark text-center py-3'>
+    {/* <div className='bg-dark text-center py-3'>
       <span className='text-white'>your fashion pathner</span>
-    </div>
+    </div> */}
 
     <div className='container'>
       <Navbar expand="lg" className="">
@@ -22,9 +22,9 @@ const Header = () => {
             className="ms-auto my-2 my-lg-0"
             navbarScroll
           >
-            <Nav.Link href="#action1">Men</Nav.Link>
-            <Nav.Link href="#action2">Women</Nav.Link>
-            <Nav.Link href="#action2">Kids</Nav.Link>
+            <Nav.Link href="#action1">Phones</Nav.Link>
+            <Nav.Link href="#action2">Laptops</Nav.Link>
+            <Nav.Link href="#action2">Desktops</Nav.Link>
             
           </Nav>
           <div className='nav-right d-flex'>
