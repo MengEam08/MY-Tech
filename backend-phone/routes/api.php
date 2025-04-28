@@ -6,31 +6,34 @@ use App\Http\Controllers\adminCategoryController;
 use App\Http\Controllers\adminProductController;
 use App\Http\Controllers\adminStorageController;
 use App\Http\Controllers\adminTempImageController;
+use App\Http\Controllers\frontAccountController;
 use App\Models\Category;
 use App\Models\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/admin/login', [adminAuthController::class, 'authenticate']);
+// Correct POST route for login (should call 'authenticate' method)
+Route::post('/admin/login', [frontAccountController::class, 'authenticate']); 
+Route::post('/login', [frontAccountController::class, 'authenticate']); 
+// Correct POST route for registration (should call 'register' method)
+Route::post('/register', [frontAccountController::class, 'register']); // Keep this for registration
 
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
-
-Route::group(['middleware' => 'auth:sanctum'], function(){
-    // Route::get('categories', [adminCategoryController::class, 'index']);
-    // Route::get('categories/{id}', [adminCategoryController::class, 'show']);
-    // Route::put('categories/{id}', [adminCategoryController::class, 'update']);
-    // Route::delete('categories/{id}', [adminCategoryController::class, 'destroy']);
-    // Route::post('categories', [adminCategoryController::class, 'store']);
-
+// Routes for other admin functionalities
+Route::resource('categories', adminCategoryController::class);
+Route::resource('brands', adminBrandController::class);
+Route::get('storages', [adminStorageController::class, 'index']);
+Route::resource('products', adminProductController::class);
+Route::post('temp-images', [adminTempImageController::class, 'store']);
+Route::post('save-product-images', [adminProductController::class, 'saveProductImage']);
+Route::delete('delete-product-image/{id}', [adminProductController::class, 'deleteProductImage']);
+Route::group(['middleware' => 'auth:sanctum'], function() {
+    // Add routes that should be protected by authentication here
     Route::resource('categories', adminCategoryController::class);
     Route::resource('brands', adminBrandController::class);
-    Route::get('storages', [adminStorageController::class,'index']);
+    Route::get('storages', [adminStorageController::class, 'index']);
     Route::resource('products', adminProductController::class);
-    Route::post('temp-images', [adminTempImageController::class,'store']);
-    Route::post('save-product-images', [adminProductController::class,'saveProductImage']);
-    Route::delete('delete-product-image/{id}', [adminProductController::class,'deleteProductImage']);
-
+    Route::post('temp-images', [adminTempImageController::class, 'store']);
+    Route::post('save-product-images', [adminProductController::class, 'saveProductImage']);
+    Route::delete('delete-product-image/{id}', [adminProductController::class, 'deleteProductImage']);
 });
  

@@ -40,6 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+            'driver' => 'sanctum',  // If using API authentication, ensure it's using sanctum
+            'provider' => 'users',
+        ],
+        // 'api' => [
+        //     'driver' => 'jwt',  // Use JWT for API authentication
+        //     'provider' => 'users',
+        // ],
     ],
 
     /*
