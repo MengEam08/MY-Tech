@@ -6,10 +6,13 @@ import { adminToken, apiUrl } from "../../common/http";
 import Loader from "../../common/Loader";
 import Nostate from "../../common/Nostate";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const Show = () => {
   const [products, setProducts] = useState([]);
   const [loader, setLoader] = useState(false);
+
+
   const fetchProducts = async () => {
     setLoader(true);
     try {
@@ -33,6 +36,30 @@ const Show = () => {
       setLoader(false);
     }
   };
+
+   const deleteProduct = async (id) => {
+      if(confirm("are you sure you want to delete product")){
+        const res = await fetch(`${apiUrl}/products/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${adminToken()}`
+          },
+        }).then(res => res.json())
+          .then(result => {
+            if (result.status == 200) {
+              const newProducts = products.filter(product => product.id != id)
+              setProducts(newProducts)
+              toast.success(result.message)
+            } else {
+              toast.error(result.message)
+            }
+          });
+      }
+      
+    }
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -77,9 +104,11 @@ const Show = () => {
                           <tr>
                             <td>{product.id}</td>
                             <td>
-                                { 
-                                  (product.image_url == "")? <img src="https://placehold.co/50x50" /> :<img src={product.image_url} width={50} />
-                                }
+                              {product.image_url == "" ? (
+                                <img src="https://placehold.co/50x50" />
+                              ) : (
+                                <img src={product.image_url} width={50} />
+                              )}
                             </td>
 
                             <td>{product.title}</td>
@@ -106,7 +135,7 @@ const Show = () => {
                                 <FaEdit />
                               </Link>
                               <span
-                                onClick={() => deleteProduct(produc.id)}
+                                onClick={() => deleteProduct(product.id)}
                                 className="text-danger ms-3"
                                 style={{ cursor: "pointer" }}
                                 title="Delete"

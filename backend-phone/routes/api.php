@@ -29,5 +29,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('storages', [adminStorageController::class,'index']);
     Route::resource('products', adminProductController::class);
     Route::post('temp-images', [adminTempImageController::class,'store']);
+    Route::post('save-product-images', [adminProductController::class,'saveProductImage']);
+    Route::delete('delete-product-image/{id}', [adminProductController::class,'deleteProductImage']);
 
 });
+ 

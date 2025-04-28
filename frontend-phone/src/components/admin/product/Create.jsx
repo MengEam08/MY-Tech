@@ -88,8 +88,7 @@ const Create = ({ placeholder }) => {
   useEffect(() => {
     fetchCategories();
     fetchBrands();
-  }, []); // Run once when the component mounts
-
+  }, []); 
   const saveProduct = async (data) => {
     const formData = { ...data, "description":content,"gallery":gallery};
     setDisable(true);
@@ -128,7 +127,7 @@ const Create = ({ placeholder }) => {
 
  
 
-  const hanleFile = async (e) => {
+  const handleFile = async (e) => {
     const formData = new FormData();
     const file = e.target.files[0];
 
@@ -443,7 +442,7 @@ const Create = ({ placeholder }) => {
                     <div className="mb-3">
                         <label htmlFor="" className="form-label">Image</label>
                         <input 
-                            onChange={hanleFile}
+                            onChange={handleFile}
                             type="file" 
                             className="form-control"
                             
@@ -458,7 +457,7 @@ const Create = ({ placeholder }) => {
                                         <div className="col-md-3" key={`image-${index}`}>
                                             <div className="card shadow">
                                                 <img src={image} alt="" className="w-100" />
-                                                <button className="btn btn-danger" onClick={()=>deleteImage(image)}>Delete</button>
+                                                <button className="btn btn-danger mt-3 w-100" onClick={()=>deleteImage(image)}>Delete</button>
                                             </div>
                                         </div>
                                     )
